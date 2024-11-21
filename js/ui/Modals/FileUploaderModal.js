@@ -88,7 +88,7 @@ class FileUploaderModal extends BaseModal {
    * Валидирует изображение и отправляет его на сервер
    */
   sendImage(imageContainer) {
-    const pathFolder = App.savelocalStorage('pathFolder', 'Введите путь к папке на Ya_диск в виде /*/*/')
+    const pathFolder = `/${App.savelocalStorage('pathFolder', 'Введите путь к папке на Ya_диск в виде: nameFolder/')}`
     const inputPath = imageContainer.querySelector('input')
     if (inputPath.value.trim() === '') {
       inputPath.parentElement.classList.add('error')

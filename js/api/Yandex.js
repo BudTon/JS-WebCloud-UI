@@ -51,7 +51,7 @@ class Yandex {
    * Метод получения всех загруженных файлов в облаке
    */
   static getUploadedFiles(callback) {
-    const loadPath = App.savelocalStorage('pathFolder', 'Введите путь к папке на Ya_диск в виде /*/*/')
+    const loadPath = `/${App.savelocalStorage('pathFolder', 'Введите путь к папке на Ya_диск в виде: nameFolder/')}`
     createRequest({
       method: 'GET',
       url: `${Yandex.HOST}/resources`,
