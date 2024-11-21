@@ -88,11 +88,12 @@ class FileUploaderModal extends BaseModal {
    * Валидирует изображение и отправляет его на сервер
    */
   sendImage(imageContainer) {
+    const pathFolder = App.savelocalStorage('pathFolder', 'Введите путь к папке на Ya_диск в виде /*/*/')
     const inputPath = imageContainer.querySelector('input')
     if (inputPath.value.trim() === '') {
       inputPath.parentElement.classList.add('error')
     } else {
-      const path = '/Загрузки/PhotoVK/' + inputPath.value + '.jpg';
+      const path = pathFolder + inputPath.value + '.jpg';
       const url = imageContainer.firstElementChild.src;
       Yandex.uploadFile(path, url, () => {
         imageContainer.remove()

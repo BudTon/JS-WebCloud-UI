@@ -28,20 +28,21 @@ class ImageViewer {
     const btnShowUploadedFiles = this.element.getElementsByClassName("show-uploaded-files")[0]
 
     countFiles.innerHTML = this.selecteds.length
-    this.checkButtonText(0)
+    countFilesSelected.innerHTML = document.querySelectorAll(".selected").length
+    
+    this.checkButtonText()
 
     this.selecteds.forEach(selected => {
       selected.onclick = function (event) {
         event.target.classList.toggle("selected")
         const selectedsCount = document.querySelectorAll(".selected")
         countFilesSelected.innerHTML = selectedsCount.length
-        App.imageViewer.checkButtonText(selectedsCount)
+        App.imageViewer.checkButtonText()
       }
       selected.addEventListener('dblclick', function (event) {
         previewOneImage.innerHTML = ''
         previewOneImage.insertAdjacentHTML("afterBegin", `<img class="ui fluid image" src="${event.target.src}">`)
-        const selectedsCountdblclick = document.querySelectorAll(".selected")
-        App.imageViewer.checkButtonText(selectedsCountdblclick)
+        App.imageViewer.checkButtonText()
       });
     });
 
@@ -57,18 +58,16 @@ class ImageViewer {
           if (item.classList.contains('selected')) {
             item.classList.toggle('selected')
           }
-          const deselectedsAllCount = document.querySelectorAll(".selected")
-          this.checkButtonText(deselectedsAllCount)
-          countFilesSelected.innerHTML = deselectedsAllCount.length
+          this.checkButtonText()
+          countFilesSelected.innerHTML = document.querySelectorAll(".selected").length
         })
       } else {
         this.selecteds.forEach(item => {
           if (!item.classList.contains('selected')) {
             item.classList.toggle('selected')
           }
-          const selectedsAllCount = document.querySelectorAll(".selected")
-          this.checkButtonText(selectedsAllCount)
-          countFilesSelected.innerHTML = selectedsAllCount.length
+          this.checkButtonText()
+          countFilesSelected.innerHTML = document.querySelectorAll(".selected").length
         })
       }
     })
@@ -81,6 +80,8 @@ class ImageViewer {
       }
       previewModal.open();
       Yandex.getUploadedFiles((_, preview) => {
+        console.log(preview, ' - preview');
+        
         preview._embedded.items.forEach(item => {
           const data = {};
           data.name = item.name
@@ -129,19 +130,22 @@ class ImageViewer {
    * Контроллирует кнопки выделения всех изображений и отправки изображений на диск
    */
 
-  checkButtonText(selectedsCount) {
+  checkButtonText() {
+    const selectedsCount = document.querySelectorAll(".selected").length
 
     if (this.selecteds.length > 0) {
       this.btnSelectAll.classList.remove('disabled')
     }
 
-    if (selectedsCount.length === this.selecteds.length) {
+    if (selectedsCount === this.selecteds.length) {
       this.btnSelectAll.innerHTML = 'Снять выделение'
-    } else { this.btnSelectAll.innerHTML = 'Выбрать всё' }
+    } else { 
+      this.btnSelectAll.innerHTML = 'Выбрать всё' 
+    }
 
-    if (selectedsCount.length > 0 && this.btnSend.classList.contains('disabled')) {
+    if (selectedsCount > 0 && this.btnSend.classList.contains('disabled')) {
       this.btnSend.classList.toggle('disabled')
-    } else if (selectedsCount.length <= 0 && !this.btnSend.classList.contains('disabled')) {
+    } else if (selectedsCount <= 0 && !this.btnSend.classList.contains('disabled')) {
       this.btnSend.classList.toggle('disabled')
     }
 

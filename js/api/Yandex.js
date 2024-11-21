@@ -10,10 +10,6 @@ class Yandex {
    * Метод формирования и сохранения токена для Yandex API
    */
   static getToken() {
-    // const getToken = 'ayOAuth'
-    // if (localStorage.getItem('ayOAuth') === null) {
-    //   localStorage.setItem('ayOAuth', prompt('Введите OAuth пользователя в Yandex'));
-    // }
     return App.savelocalStorage('ayOAuth', 'Введите OAuth пользователя в Yandex')
   }
 
@@ -55,7 +51,7 @@ class Yandex {
    * Метод получения всех загруженных файлов в облаке
    */
   static getUploadedFiles(callback) {
-    const loadPath = '/Загрузки/PhotoVK/'
+    const loadPath = App.savelocalStorage('pathFolder', 'Введите путь к папке на Ya_диск в виде /*/*/')
     createRequest({
       method: 'GET',
       url: `${Yandex.HOST}/resources`,
