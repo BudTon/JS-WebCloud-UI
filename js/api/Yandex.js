@@ -51,11 +51,11 @@ class Yandex {
    * Метод получения всех загруженных файлов в облаке
    */
   static getUploadedFiles(callback) {
-    const loadPath = `/${App.savelocalStorage('pathFolder', 'Введите путь к папке на Ya_диск в виде: nameFolder/')}`
+    const loadPath = `/Загрузки/${App.savelocalStorage('pathFolder', 'Введите путь к папке на Ya_диск в виде: nameFolder/')}`
     createRequest({
       method: 'GET',
       url: `${Yandex.HOST}/resources`,
-      data: { path: loadPath, limit: 10000, mediaType: "image" }, //, url },
+      data: { path: loadPath, limit: 10000, mediaType: "image" },
       headers: {
         "Authorization": `OAuth ${Yandex.getToken()}`,
         "Accept": 'application/json',

@@ -29,7 +29,7 @@ class ImageViewer {
 
     countFiles.innerHTML = this.selecteds.length
     countFilesSelected.innerHTML = document.querySelectorAll(".selected").length
-    
+
     this.checkButtonText()
 
     this.selecteds.forEach(selected => {
@@ -80,20 +80,29 @@ class ImageViewer {
       }
       previewModal.open();
       Yandex.getUploadedFiles((_, preview) => {
-        console.log(preview, ' - preview');
-        
-        preview._embedded.items.forEach(item => {
-          const data = {};
-          data.name = item.name
-          data.size = parseFloat(item.size / 1024).toFixed(1);
-          data.date = item.created;
-          data.imageUrl = item.sizes[0].url
-          data.pathUrl = preview.path;
-          data.downLoaderUrl = item.file;
-          PreviewModal.showImages(data)
-        });
-        previewModal.registerEvents()
-        if (document.querySelector('.uploaded-previewer-modal > .scrolling > .image-preview-container') === null) {
+        try {
+          console.log(preview, ' - preview');
+          preview._embedded.items.forEach(item => {
+            const data = {};
+            data.name = item.name
+            data.size = parseFloat(item.size / 1024).toFixed(1);
+            data.date = item.created;
+            data.imageUrl = item.sizes[0].url
+            data.pathUrl = preview.path;
+            data.downLoaderUrl = item.file;
+            PreviewModal.showImages(data)
+          });
+          previewModal.registerEvents()
+          if (document.querySelector('.uploaded-previewer-modal > .scrolling > .image-preview-container') === null) {
+            previewModal.close()
+          }
+        } catch (err) {
+          alert('Не правильно введен путь к папке на Yдиске или папка не существует. \n' +
+            '1. Необходимо создать папку в каталозе "Загрузки" YДиске ТОЛЬКО!!! с файлами типа:img\n' +
+            '2. Ввести путь к созданной папки в запросе в виде "имя_папки/"\n')
+          console.log('Поймали ошибку! Вот она: ', err.message)
+          window.localStorage.removeItem('pathFolder')
+          previewModal.registerEvents()
           previewModal.close()
         }
       });
@@ -139,8 +148,8 @@ class ImageViewer {
 
     if (selectedsCount === this.selecteds.length) {
       this.btnSelectAll.innerHTML = 'Снять выделение'
-    } else { 
-      this.btnSelectAll.innerHTML = 'Выбрать всё' 
+    } else {
+      this.btnSelectAll.innerHTML = 'Выбрать всё'
     }
 
     if (selectedsCount > 0 && this.btnSend.classList.contains('disabled')) {

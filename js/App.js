@@ -38,9 +38,9 @@ class App {
 * хранилище значений по ключю
 * */
   static savelocalStorage(keylocalStorage, textAlert) {
-    if (localStorage.getItem(`${keylocalStorage}`) === null) {
-      localStorage.setItem(`${keylocalStorage}`, prompt(`${textAlert}`));
+    if (window.localStorage.getItem(`${keylocalStorage}`) === null) {
+      window.localStorage.setItem(`${keylocalStorage}`, prompt(`${textAlert}`));
     }
-    return localStorage.getItem(`${keylocalStorage}`)
+    return window.localStorage.getItem(`${keylocalStorage}`)
   }
 }
